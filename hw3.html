@@ -36,7 +36,10 @@ svg {
 }
 .intro{
   font-family: Cambria;
-
+}
+h4 {
+  font-size: 12px;
+  font-family: Cambria;
 }
 div{
   width: span;
@@ -46,13 +49,15 @@ div{
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<div><h1 class="intro">  IE590 DV: Homework 3 - Data Visualizations using d3</h1>
-  <p class="intro">This data was taken from <a href="http://nces.ed.gov/programs/digest/d12/tables/dt12_460.asp">nces.ed.gov</a>, and includes average fourth-grade scores and annual instructional time in mathematics and science, by country or other education system for the year 2011.</p>
-</div>
+<div><h1 class="intro">  How Smart is Your 4th Grader?</h1></div>
+  <h3> A data story: by M. Nyre</h3>
+  <h4>This data was taken from <a href="http://nces.ed.gov/programs/digest/d12/tables/dt12_460.asp">nces.ed.gov</a>, and includes average fourth-grade scores and annual instructional time in mathematics and science, by country or other education system for the year 2011.
+    <p> Some interesting findings came from analyzing this dataset. First, scores were normalized into percentile ranks to understand ranking vs. raw scores. Based on these percentiles, it is clear that while there seems to be a correlation between high scores in both Math and Science (when observing avgMathScore and avgSciScore), it is not always true, as shown by lines between the percentile scales with slope > 0. Second, Math in general has more instructional hours (and percent of total hours) than Science.</p>
+<p style="color:red"> Please see html code for efforts in properly adjusting scales.</p></h4>
+
 
 <script>
-
-var margin = {top: 90, right: 10, bottom: 10, left: 10},
+var margin = {top: 40, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -71,14 +76,42 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("HW3/scores.csv", function(error, scores) {
 
-  // Extract the list of dimensions and create a scale for each.
-  x.domain(dimensions = d3.keys(scores[0]).filter(function(d) {
+// Extract the list of dimensions and create a scale for each.
+
+d3.json("HW3/scores.json", function(error, scores){
+  x.domain(dimensions = d3.keys(scores[0]).filter(function(d){
     return d != "Country" && (y[d] = d3.scale.linear()
         .domain(d3.extent(scores, function(p) { return +p[d]; }))
         .range([height, 0]));
   }));
+
+// This was my attempt to change the axes to be correctly scaled, to prevent distortion. 
+// Unfortanately it wont run. I even had help from stackoverflow to do this.
+// http://stackoverflow.com/questions/28733832/creating-unique-scales-for-parallel-coordinates-using-d3-multivariate/28738049#28738049
+
+// d3.json("HW3/scores.json", function(error, scores){
+//   x.domain(dimensions = d3.keys(scores[0])).filter(function(d){
+//      return d != "Country" ;
+//    }));
+//   y["mathPercentofTotalHr"] = d3.scale.linear()
+//     .domain([1, 100])
+//    .range([height, 0]);
+//   y["sciPercentofTotalHr"] = d3.scale.linear()
+//     .domain([1, 100])
+//     .range([height, 0]);
+//   y["mathInstrHrYr"] = d3.scale.linear()
+//     .domain([0, d3.max(data, function(p) { return Math.max(+p["mathInstrHrYr"], +p["sciInstrHrYr"]) })])
+//     .range([height, 0]);
+//   y["sciInstrHrYr"] = d3.scale.linear()
+//     .domain([0, d3.max(data, function(p) { return Math.max(+p["mathInstrHrYr"], +p["sciInstrHrYr"]) })])
+//     .range([height, 0]);
+//   y["avgMathScore"] = d3.scale.linear()
+//     .domain([200, d3.max(data, function(p) { return Math.max(+p["avgMathScore"], +p["avgSciScore"]) })])
+//     .range([height, 0]);
+//   y["avgSciScore"] = d3.scale.linear()
+//     .domain([200, d3.max(data, function(p) { return Math.max(+p["avgMathScore"], +p["avgSciScore"]) })])
+//     .range([height, 0]);
 
   // Add grey background lines for context.
   background = svg.append("g")
@@ -126,6 +159,18 @@ d3.csv("HW3/scores.csv", function(error, scores) {
               .duration(0)
               .attr("visibility", null);
         }));
+  
+
+  // var tooltip = d3.select("body")
+  //   .append("div")
+  //   .style("position", "absolute")
+  //   .style("z-index", "10")
+  //   .style("visibility", "hidden")
+  //   .text("a simple tooltip");
+
+  // d3.select("dimension")
+  //   .on("mouseover", function(){return tooltip.style("visibility", "visible");})
+
 
   // Add an axis and title.
   g.append("g")
@@ -177,7 +222,7 @@ function brush() {
 }
 
 </script></br>
-This code was adopted from <a href="http://bl.ocks.org/jasondavies/1341281.">// code adopted from http://bl.ocks.org/jasondavies/1341281.</a>
+This code was adopted from <a href="http://bl.ocks.org/jasondavies/1341281.">http://bl.ocks.org/jasondavies/1341281.</a>
 </body>
 </html>
 
