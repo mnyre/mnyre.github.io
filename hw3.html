@@ -2,6 +2,9 @@
 <meta charset="utf-8">
 <style>
 
+body {
+  height:100%;
+}
 svg {
   font: 10px sans-serif;
 }
@@ -37,27 +40,35 @@ svg {
 .intro{
   font-family: Cambria;
 }
-h4 {
-  font-size: 12px;
-  font-family: Cambria;
-}
-div{
+div.header{
   width: span;
   height: 40px;
   background-color: lightgrey;
 }
+div.footer {
+   position:fixed;
+   text-align: center;
+   left:0px;
+   bottom:0px;
+   height:15px;
+   width:100%;
+   background-color: lightgrey;
+}
+h4 {
+  font-size: 12px;
+  font-family: Cambria;
+}
+
 </style>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
-<div><h1 class="intro">  How Smart is Your 4th Grader?</h1></div>
+<div class="header"><h1 class="intro">  How Smart is Your 4th Grader?</h1></div>
   <h3> A data story: by M. Nyre</h3>
   <h4>This data was taken from <a href="http://nces.ed.gov/programs/digest/d12/tables/dt12_460.asp">nces.ed.gov</a>, and includes average fourth-grade scores and annual instructional time in mathematics and science, by country or other education system for the year 2011.
     <p> Some interesting findings came from analyzing this dataset. First, scores were normalized into percentile ranks to understand ranking vs. raw scores. Based on these percentiles, it is clear that while there seems to be a correlation between high scores in both Math and Science (when observing avgMathScore and avgSciScore), it is not always true, as shown by lines between the percentile scales with slope > 0. Second, Math in general has more instructional hours (and percent of total hours) than Science.</p>
-<p style="color:red"> Please see html code for efforts in properly adjusting scales.</p></h4>
-
 
 <script>
-var margin = {top: 40, right: 10, bottom: 10, left: 10},
+var margin = {top: 18, right: 10, bottom: 10, left: 10},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -94,24 +105,24 @@ d3.json("HW3/scores.json", function(error, scores){
 //   x.domain(dimensions = d3.keys(scores[0])).filter(function(d){
 //      return d != "Country" ;
 //    }));
-//   y["mathPercentofTotalHr"] = d3.scale.linear()
-//     .domain([1, 100])
-//    .range([height, 0]);
-//   y["sciPercentofTotalHr"] = d3.scale.linear()
-//     .domain([1, 100])
-//     .range([height, 0]);
-//   y["mathInstrHrYr"] = d3.scale.linear()
-//     .domain([0, d3.max(data, function(p) { return Math.max(+p["mathInstrHrYr"], +p["sciInstrHrYr"]) })])
-//     .range([height, 0]);
-//   y["sciInstrHrYr"] = d3.scale.linear()
-//     .domain([0, d3.max(data, function(p) { return Math.max(+p["mathInstrHrYr"], +p["sciInstrHrYr"]) })])
-//     .range([height, 0]);
-//   y["avgMathScore"] = d3.scale.linear()
-//     .domain([200, d3.max(data, function(p) { return Math.max(+p["avgMathScore"], +p["avgSciScore"]) })])
-//     .range([height, 0]);
-//   y["avgSciScore"] = d3.scale.linear()
-//     .domain([200, d3.max(data, function(p) { return Math.max(+p["avgMathScore"], +p["avgSciScore"]) })])
-//     .range([height, 0]);
+  y["mathPercentofTotalHr"] = d3.scale.linear()
+    .domain([1, 100])
+   .range([height, 0]);
+  y["sciPercentofTotalHr"] = d3.scale.linear()
+    .domain([1, 100])
+    .range([height, 0]);
+  y["mathInstrHrYr"] = d3.scale.linear()
+    .domain([0, 275])
+    .range([height, 0]);
+  y["sciInstrHrYr"] = d3.scale.linear()
+    .domain([0, 275])
+    .range([height, 0]);
+  y["avgMathScore"] = d3.scale.linear()
+    .domain([200, 615])
+    .range([height, 0]);
+  y["avgSciScore"] = d3.scale.linear()
+    .domain([200, 615])
+    .range([height, 0]);
 
   // Add grey background lines for context.
   background = svg.append("g")
@@ -222,7 +233,7 @@ function brush() {
 }
 
 </script></br>
-This code was adopted from <a href="http://bl.ocks.org/jasondavies/1341281.">http://bl.ocks.org/jasondavies/1341281.</a>
+<div class="footer">This code was adopted from <a href="http://bl.ocks.org/jasondavies/1341281.">http://bl.ocks.org/jasondavies/1341281.</a></div>
 </body>
 </html>
 
