@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html> 
+<meta charset="utf-8">
+<head><title> EXAM1 - 3.1</title></head>
+
+<style>
+div.header{
+  font-family: Garamond;
+  height: 45px;
+  width: 100%;
+  position: center;
+  margin-left: 20px;
+  background-color: #d9d9d9;
+}
+div.footer {
+   position:fixed;
+   text-align: center;
+   left:0px;
+   bottom:0px;
+   height:20px;
+   font-family: Garamond;
+   width: 100%;
+   margin-left: 20px;
+   background-color: #d9d9d9;
+}
+div.text{
+  font-family: Garamond;
+  width: 100%;
+  font-size: 14px;
+  margin-left: 20px;
+}
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: grey;
+}
+
+}
+.axis {
+  font: 10px Calibri;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+</style>
+
+<body>
+<!--   //code was constructed using two main sources: one is listed below, the other is in the footer 
+//Murray, S. (2013). Interactive Data Visualization for the Web. 
+//O’Reilly Media,Inc. ISBN: 978-1-4493-3973-9 (Purdue Library online access) -->
+<div align="center" class="header"><h1 class="intro"> Data Visualization - Bar Chart</h1></div>
+<div align="center" class="text"> Chart created by Megan Nyre. <br> The following data was downloaded from <a href="https://hivelab.org/static/exam1.json">https://hivelab.org/static/exam1.json<a> and transformed into the data visualization below. Hover over each bar to display exact number of Senior students at each university.</div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+var dataset;
+var dataArray;
+var workAround;
+var padding = 1;
+
+var margin = {top: 50, right: 20, bottom: 30, left: 60},
+    width = 500 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+d3.json("exam1.json", function(error, data) {
+  var dataset = data;
+  var dataArray = [
+  [data[0][ 'University A' ], data[1][ 'University A' ], data[2][ 'University A' ], data[3][ 'University A' ]],
+  [data[0][ 'University B' ], data[1][ 'University B' ], data[2][ 'University B' ], data[3][ 'University B' ]],
+  [data[0][ 'University C' ], data[1][ 'University C' ], data[2][ 'University C' ], data[3][ 'University C' ]],
+  [data[0][ 'University D' ], data[1][ 'University D' ], data[2][ 'University D' ], data[3][ 'University D' ]],
+  [data[0][ 'University E' ], data[1][ 'University E' ], data[2][ 'University E' ], data[3][ 'University E' ]]
+  ];
+  console.log(dataArray);
+
+//assign a new variable to array of Seniors from each university
+  var workAround = [dataArray[0][3], dataArray[1][3], dataArray[2][3], dataArray[3][3], dataArray[4][3]];
+  console.log(workAround);
+
+var x = d3.scale.ordinal()
+    .domain(["University A", "University B", "University C", "University D", "University E"])
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .domain([0, d3.max(workAround)])
+    .range([height, 0]);
+
+var vis = d3.select("body")
+    .append("svg:svg")
+    .attr("width", width + margin.left)
+    .attr("height", height);
+                
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+
+
+  var svg = d3.select("body")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.selectAll("rect")
+      .data(workAround)
+      .enter()
+      .append("rect")
+      .attr("x", function(d,i) {
+        return i * ((width/5) +1);
+      })
+      .attr("y", function(d){
+        return 1+y(d);
+      })
+      .attr("width", width/5)
+      .attr("height", function(d) {
+        return height-y(d) -padding;
+      })
+      .attr("fill", "#2d69a4")
+      .append("title")
+      .text(function(d) {
+        return d + " Senior students";
+      });
+
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + (height - padding) + ")")
+    .call(xAxis);
+  svg.select("g")
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", margin.bottom)
+    .style("text-anchor", "end")
+    .text("University");
+
+  svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + padding + ",0)")
+    .call(yAxis)
+  svg.select("g")
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height/2)
+    .attr("y", -margin.bottom)
+    .style("text-anchor", "end")
+    .text("YAxis");
+
+//Couldnt get the labels to work properly
+
+  // svg.selectAll("text")
+  //     .data(workAround)
+  //     .enter()
+  //     .append("text")
+  //     .text(function(d){
+  //       return d;
+  //     })
+  //     .attr("x", function(d,i) {
+  //       return i + 50;
+  //     })
+  //     .attr("y", function(d) {
+  //       return height - (d*4) + 15;
+  //     });
+
+});
+
+
+
+
+</script>
+<div class="footer"> Code adopted from <a href="http://bl.ocks.org/mbostock/3885304"> http://bl.ocks.org/mbostock/3885304 </a>
+</body>
+</html>

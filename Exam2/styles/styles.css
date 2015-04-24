@@ -1,0 +1,56 @@
+body {
+  height:100%;
+}
+svg {
+  font: 10px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+.intro{
+  font-family: Cambria;
+}
+div.header{
+  width: span;
+  height: 40px;
+  background-color: lightgrey;
+}
+div.footer {
+   position:fixed;
+   text-align: center;
+   left:0px;
+   bottom:0px;
+   height:15px;
+   width:100%;
+   background-color: lightgrey;
+}
+h4 {
+  font-size: 12px;
+  font-family: Cambria;
+}
