@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-<title>Exam2_3.1</title>
+<title>Exam2_3.2</title>
 <script src="Exam2/js/jquery-1.11.2.min.js"></script>
 <script src="Exam2/js/d3.v3.min.js" charset="utf-8"></script>
 </head>
@@ -72,25 +72,24 @@ function refreshTable(sortOn){
 			d3.select("tbody").selectAll("tr:nth-child(" + b +")").style("background-color", "green");});
 
 	//update?
-	// if(sortOn !== null) {			
-	// 			tr.sort(function(a,b){return sort(a[sortOn], b[sortOn]);});
-	// 			previousSort = sortOn;
-	// 		}
-	// 		//update cells
-	// 		td.text(function(d) {return d;});
-	// }
+	if(sortOn !== null) {			
+				tr.sort(function(a,b){return sort(a[sortOn], b[sortOn]);});
+				previousSort = sortOn;
+			}
+			//update cells
+			td.text(function(d) {return d;});
+	}
 
-	// function sort(a,b){
-	// 	if(typeof a == "string"){
-	// 			return a.localeCompare(b);
-	// 	}
-	// 	else if(typeof a == "number"){
-	// 		return a > b ? 1 : a == b ? 0 : -1;
-	// 	}
-	// 	else if(typeof a == "boolean"){
-	// 		return b ? 1 : a ? -1 : 0;
-	// 	}
-	// }
+	function sort(a,b){
+		if(typeof a == "string"){
+				return a.localeCompare(b);
+		}
+		else if(typeof a == "number"){
+			return a > b ? 1 : a == b ? 0 : -1;
+		}
+		else if(typeof a == "boolean"){
+			return b ? 1 : a ? -1 : 0;
+		}
 	}
 }
 
